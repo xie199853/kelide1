@@ -1,72 +1,69 @@
 <template>
   <div class="login-container">
-    <el-form ref="loginForm" class="login-form" auto-complete="on" label-position="left" :rules="rules" :model="loginForm">
+    <el-form ref="loginForm" class="login-form" label-position="left" :rules="rules" :model="loginForm">
       <div class="title-container">
         <h3 class="title">
           <img src="@/assets/common/logo.png" alt="">
         </h3>
       </div>
-      <el-form-item prop="mobile">
+      <el-form-item prop="loginName">
         <span class="svg-container el-icon-mobile-phone" />
-        <el-input v-model="loginForm.mobile" placeholder="请输入手机号码" />
+        <el-input v-model="loginForm.loginName" />
       </el-form-item>
       <el-form-item prop="password">
         <span class="svg-container el-icon-lock" />
-        <el-input ref="pwd" v-model="loginForm.password" :type="passwordType" placeholder="请输入密码" />
+        <el-input ref="pwd" v-model="loginForm.password" :type="passwordType" />
         <span class="svg-container" @click="showpwd">
           <svg-icon :icon-class="passwordType == 'password'?'eye':'eye-open'" />
         </span>
       </el-form-item>
-      <el-form-item>
-        <span class="svg-container el-icon-mobile-phone" />
-        <el-input placeholder="请输入验证码" />
+      <el-form-item prop="code">
+        <span class="svg-container el-icon-chat-square" />
+        <el-input v-model="loginForm.code" placeholder="请输入验证码" />
+        <span class="svg-container show-pwd" @click="random">
+          <img :src="photoSrc" alt="">
+        </span>
       </el-form-item>
       <el-button class="loginBtn" :loading="loading" @click="login">登录</el-button>
 
     </el-form>
   </div>
-  <!-- 环境变量的作用
-  1. 正常公司中 有几个环境 4 开发 dev 测试 test 预发 uat 线上 pro
-  2. 在项目里如何配置这几个环境  通过 .env 配置 base api
-  开发环境的接口前缀 /api
-  线上环境的接口前缀 /prod-api
-   -->
 </template>
 <script>
-import { validPhone } from '@/utils/validate'
+import { VerificationCodeAPI } from '@/api/login'
 export default {
   name: 'Login',
   data() {
-    const phoneValid = (rules, value, callback) => {
-      if (!validPhone(value)) {
-        callback(new Error('格式错误'))
-      } else {
-        callback()
-      }
-    }
     return {
+      passwordType: 'password',
       loginForm: {
         loginName: 'admin',
-        mobile: '13800000002',
-        password: '123456',
-        code: '',
-        clientToken: this.$store.state.token,
-        loginType: 0,
-        account: '13800000002'
+        password: 'admin',
+        code: '', // 验证码
+        clientToken: '', // 随机数
+        loginType: 0
       },
+      photoSrc: '',
       rules: {
-        mobile: [
-          { required: true, message: '输入手机号码', trigger: 'blur' },
-          { validator: phoneValid, trigger: 'blur' }
+        loginName: [
+          { required: true, message: '输入账号', trigger: 'blur' },
+          { min: 4, max: 10, message: '账号格式错误 ', trigger: 'blur' }
         ],
         password: [
           { required: true, message: '输入密码', trigger: 'blur' },
-          {	min: 6, max: 16, message: '密码格式错误 ', trigger: 'blur' }
+          {	min: 4, max: 16, message: '密码格式错误 ', trigger: 'blur' }
+        ],
+        code: [
+          { required: true, message: '输入验证码', trigger: 'blur' },
+          { max: 4, message: '验证码格式错误 ', trigger: 'blur' }
         ]
       },
-      passwordType: 'password',
+
       loading: false
     }
+  },
+  created() {
+    this.getVerificationCodeAPI()
   },
   methods: {
     showpwd() {
@@ -75,11 +72,26 @@ export default {
         this.$refs.pwd.focus()
       })
     },
+    // 验证码
+    async getVerificationCodeAPI() {
+      this.loginForm.clientToken = Math.random().toString()
+      const data = await VerificationCodeAPI(this.loginForm.clientToken)
+      const blob = new Blob([data.data], { type: 'application/vnd.ms-excel' })
+      this.photoSrc = window.URL.createObjectURL(blob)
+    },
+    // 随机验证码
+    random() {
+      this.getVerificationCodeAPI()
+    },
+    // 登录按钮
     async login() {
       try {
-        await this.$refs.loginForm.validate()
+        this.$refs.loginForm.validate()
         this.loading = true
         await this.$store.dispatch('user/loginAction', this.loginForm)
+        this.$router.push('/')
+      } catch (error) {
+        console.log(error)
       } finally {
         this.loading = false
       }
@@ -94,7 +106,7 @@ export default {
 
 $bg:#283443;
 $light_gray:#999;
-$cursor: #fff;
+$cursor: #999;
 
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
   .login-container .el-input input {
@@ -159,7 +171,6 @@ $cursor: #fff;
 $bg:#2d3a4b;
 $dark_gray:#889aa4;
 $light_gray:#68b0fe;
-
 .login-container {
   min-height: 100%;
   width: 100%;
@@ -207,9 +218,8 @@ $light_gray:#68b0fe;
 
   .show-pwd {
     position: absolute;
-    right: 10px;
-    top: 7px;
-    font-size: 16px;
+    right: 114px;
+    top: -7.25px;
     color: $dark_gray;
     cursor: pointer;
     user-select: none;

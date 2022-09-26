@@ -18,6 +18,7 @@ export function loginAPI(data) {
  */
 export function VerificationCodeAPI(clientToken) {
   return request({
-    url: `/user-service/user/imageCode/${clientToken}`
+    url: `/user-service/user/imageCode/${clientToken}`,
+    responseType: 'blob'
   })
 }
