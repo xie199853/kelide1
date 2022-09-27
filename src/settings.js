@@ -6,7 +6,7 @@ module.exports = {
    * @type {boolean} true | false
    * @description Whether fix the header
    */
-  fixedHeader: false, // 顶部栏固定定位
+  fixedHeader: true, // 顶部栏固定定位
 
   /**
    * @type {boolean} true | false
