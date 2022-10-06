@@ -8,6 +8,9 @@ export default {
   mutations: {
     setToken(state, token) {
       state.token = token
+    },
+    RMOVE_TOKEN(state) {
+      state.token = null
     }
   },
   actions: {
@@ -23,6 +26,10 @@ export default {
       } catch (err) {
         throw Error(err.message)
       }
+    },
+    logout({ commit }) {
+      // 清除用户数据  token
+      commit('RMOVE_TOKEN')
     }
   }
 }

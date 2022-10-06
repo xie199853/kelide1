@@ -1,12 +1,12 @@
 <template>
   <div :class="{'has-logo':showLogo}">
-    <logo v-if="showLogo" :collapse="isCollapse" />
+    <logo v-if="showLogo" :collapse="isCollapse" class="aaa" />
     <el-scrollbar wrap-class="scrollbar-wrapper">
       <el-menu
         :default-active="activeMenu"
         :collapse="isCollapse"
         :background-color="variables.menuBg"
-        :text-color="variables.menuText"
+        text-color="#000"
         :unique-opened="false"
         :active-text-color="variables.menuActiveText"
         :collapse-transition="false"
@@ -54,3 +54,8 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+  .aaa {
+    margin-bottom: 15px;
+  }
+</style>
