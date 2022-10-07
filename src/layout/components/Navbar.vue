@@ -2,7 +2,7 @@
   <div class="navbar">
     <img src="~@/assets/common/logoone.png" alt="" class="bg">
     <div class="right-menu wecome">
-      <el-dropdown class="avatar-container" trigger="click">
+      <span class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
           <img
             src="~@/assets/common/user.png"
@@ -14,7 +14,7 @@
             <i class="el-icon-caret-bottom" @click="logout" />
           </el-tooltip>
         </div>
-      </el-dropdown>
+      </span>
     </div>
   </div>
 </template>
