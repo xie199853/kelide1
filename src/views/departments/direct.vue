@@ -14,7 +14,7 @@
     <!-- 新建 -->
     <div class="list-container">
       <!-- 按钮 -->
-      <div class="button"><el-button type="warning" icon="el-icon-circle-plus-outline">新建</el-button></div>
+      <div class="button "><el-button type="warning" icon="el-icon-circle-plus-outline" class="btn-xinj">新建</el-button></div>
       <!-- 内容 -->
       <el-table
         ref="singleTable"
@@ -123,5 +123,22 @@ export default {
   .list-container {
     padding: 20px 15px 19px 17px;
     background-color: #fff;
+  }
+  .btn-xinj{
+    width: 80px!important;
+    height: 36px;
+    padding: 0;
+    background: linear-gradient(135deg,#ff9743,#ff5e20)!important;
+    background-image: linear-gradient(135deg, rgb(255, 151, 67), rgb(255, 94, 32)) !important;
+    background-position-x: initial !important;
+    background-position-y: initial !important;
+    background-size: initial !important;
+    background-repeat-x: initial !important;
+    background-repeat-y: initial !important;
+    background-attachment: initial !important;
+    background-origin: initial !important;
+    background-clip: initial !important;
+    background-color: initial !important;
+    border: none;
   }
 </style>

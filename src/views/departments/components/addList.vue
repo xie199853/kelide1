@@ -1,5 +1,5 @@
 <template>
-  <el-dialog class="add" title="新增区域" :visible.sync="dialogFormVisible" width="630px">
+  <el-dialog title="新增区域" :visible.sync="dialogFormVisible" width="630px">
     <el-form :model="form" :rules="rules">
       <el-form-item label="区域名称:" label-width="83px" prop="name">
         <el-input v-model="form.name" maxlength="15" show-word-limit placeholder="请输入"></el-input>
@@ -9,8 +9,8 @@
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
-      <el-button style="background:#fbf4f0;" @click="dialogFormVisible = false">取 消</el-button>
-      <el-button style="background:#ff712b;" type="primary" @click="dialogFormVisible = false">确 定</el-button>
+      <el-button style="background:#fbf4f0;border: none;" @click="dialogFormVisible = false">取 消</el-button>
+      <el-button class="btn-qued" type="primary" @click="dialogFormVisible = false">确 定</el-button>
     </div>
   </el-dialog>
 </template>
@@ -49,5 +49,19 @@ export default {
 }
 .el-textarea{
   width: 72%;
+}
+.btn-qued{
+  background: linear-gradient(135deg,#ff9743,#ff5e20)!important;
+    background-image: linear-gradient(135deg, rgb(255, 151, 67), rgb(255, 94, 32)) !important;
+    background-position-x: initial !important;
+    background-position-y: initial !important;
+    background-size: initial !important;
+    background-repeat-x: initial !important;
+    background-repeat-y: initial !important;
+    background-attachment: initial !important;
+    background-origin: initial !important;
+    background-clip: initial !important;
+    background-color: initial !important;
+    border: none;
 }
 </style>
