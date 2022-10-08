@@ -55,6 +55,7 @@ export default { //   props: ['totalPage', 'totalCount', 'pageIndex'],
     height: 96px;
     padding: 32px 16px;
     display: flex;
+    background-color: #fff;
     align-items: center;
     .text{
         flex: 1;

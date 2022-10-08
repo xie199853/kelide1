@@ -9,7 +9,7 @@ const service = axios.create({
 })
 
 service.interceptors.request.use(config => {
-  config.headers['Authorization'] = `${store.getters.token}`
+  config.headers['Authorization'] = store.getters.token
   return config
 })
 // 请求拦截器
