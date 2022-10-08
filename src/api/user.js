@@ -64,3 +64,12 @@ export const addRoleAPI = (data) => {
     data
   })
 }
+/**
+ * 删除人员
+ */
+export const delRoleAPI = (id) => {
+  return request({
+    url: `user-service/user/${id}`,
+    method: 'DELETE'
+  })
+}
