@@ -1,7 +1,14 @@
 <template>
   <div class="user-work">
-    <headers :table-data="tableData" @searchRes="[tableData=$event[0],isShow=$event[1]]" />
-    <result :table-data="tableData" @showDialog="dialogFormVisible = $event" />
+    <headers
+      :table-data="tableData"
+      @searchRes="[tableData=$event[0],isShow=$event[1]]"
+    />
+    <result
+      :table-data="tableData"
+      @delConfirm="getUserSearch"
+      @showDialog="dialogFormVisible = $event"
+    />
     <MyPagination
       v-if="isShow"
       :total-page="totalPage"
@@ -10,7 +17,11 @@
       @prePage="getUserSearch($event)"
       @nextPage="getUserSearch($event)"
     />
-    <addRole :table-data="tableData" :dialog-form-visible.sync="dialogFormVisible" @addConfirm="getUserSearch" />
+    <addRole
+      :table-data="tableData"
+      :dialog-form-visible.sync="dialogFormVisible"
+      @addConfirm="getUserSearch"
+    />
   </div>
 </template>
 
