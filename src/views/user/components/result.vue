@@ -81,6 +81,17 @@ export default {
     color: #ff5a5a;
   }
 }
+::v-deep .el-table{
+  thead {
+     color: #666;
+    }
+    th{
+     font-weight: 500;
+   }
+}
+  ::v-deep .el-table th.el-table__cell{
+    background-color: #f3f6fb;
+  }
 ::v-deep .el-table__row {
    height: 44px;
  }
