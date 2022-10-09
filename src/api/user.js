@@ -3,12 +3,12 @@ import request from '@/utils/request'
 /**
  * 人员工作量列表
  */
-export const getStaffListAPI = (pageIndex, pageSize, userName, roleId, isRepair) => {
+export const getStaffListAPI = (pageIndex, pageSize) => {
   return request({
     url: '/user-service/user/searchUserWork',
     method: 'GET',
     params: {
-      pageIndex, pageSize, userName, roleId, isRepair
+      pageIndex, pageSize
     }
   })
 }
@@ -81,5 +81,24 @@ export const editRoleAPI = (data, id) => {
     url: `/user-service/user/${id}`,
     method: 'PUT',
     data
+  })
+}
+/**
+ * 获取当时工单汇总信息(人员统计头部信息)
+ */
+export const getTaskReportInfoAPI = (start, end) => {
+  return request({
+    url: `/task-service/task/taskReportInfo/${start}/${end}`
+  })
+}
+/**
+ * 获取用户工作量(工单统计)
+ */
+export const getUserWorkAPI = (userId, start, end) => {
+  return request({
+    url: `/task-service/task/userWork`,
+    params: {
+      userId, start, end
+    }
   })
 }
