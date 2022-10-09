@@ -2,10 +2,10 @@
   <el-dialog class="add" title="新增区域" :visible.sync="dialogFormVisible" width="630px">
     <el-form :model="form" :rules="rules">
       <el-form-item label="区域名称:" label-width="83px" prop="name">
-        <el-input v-model="form.name" maxlength="15" show-word-limit placeholder="请输入"></el-input>
+        <el-input v-model="form.name" maxlength="15" show-word-limit placeholder="请输入" />
       </el-form-item>
       <el-form-item label="备注说明:" :label-width="formLabelWidth" prop="textarea">
-        <el-input type="textarea" :rows="4" placeholder="请输入备注（不超过40字）" v-model="form.textarea" maxlength="40" show-word-limit></el-input>
+        <el-input v-model="form.textarea" type="textarea" :rows="4" placeholder="请输入备注（不超过40字）" maxlength="40" show-word-limit />
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">

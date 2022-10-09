@@ -4,6 +4,7 @@ export default {
   path: '/social',
   component: Layout,
   children: [{
+    name: 'social',
     path: '',
     name: 'social',
     component: () => import('@/views/social'),

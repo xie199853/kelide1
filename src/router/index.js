@@ -15,7 +15,7 @@ import salarysRouter from './modules/salarys'
 import worker from './modules/worker'
 import socialRouter from './modules/social'
 
-const asyncRoutes = [order, departmentsRouter, employeesRouter, permissionRouter, attendancesRouter, salarysRouter, worker, socialRouter]
+const asyncRoutes = [worker, departmentsRouter, employeesRouter, permissionRouter, attendancesRouter, salarysRouter, order, socialRouter]
 
 /**
  * Note: sub-menu only appear when route children.length >= 1

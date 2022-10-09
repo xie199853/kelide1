@@ -4,6 +4,7 @@ export default {
   path: '/salarys',
   component: Layout,
   children: [{
+    name: 'salarys',
     path: '',
     name: 'salarys',
     component: () => import('@/views/salarys'),
