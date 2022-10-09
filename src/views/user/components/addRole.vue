@@ -1,7 +1,7 @@
 <template>
   <div class="addRole">
-    <el-dialog title="新增人员" :visible.sync="dialogFormVisible" :before-close="handleClose">
-      <el-form :model="form" :rules="rules">
+    <el-dialog :title="form.roleId === '' ? '新增人员' : '编辑人员'" :visible.sync="dialogFormVisible" :before-close="handleClose">
+      <el-form ref="addRoleForm" :model="form" :rules="rules">
         <el-form-item label="人员名称:" :label-width="formLabelWidth" prop="userName">
           <el-input
             v-model="form.userName"
@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import { getAreaListAPI, getRoleListAPI, addRoleAPI } from '@/api'
+import { getAreaListAPI, getRoleListAPI, addRoleAPI, editRoleAPI } from '@/api'
 export default {
   props: {
     dialogFormVisible: {
@@ -72,6 +72,10 @@ export default {
     tableData: {
       type: Array,
       required: true
+    },
+    currentRole: {
+      type: Object,
+      default: () => ({})
     }
   },
   data() {
@@ -139,6 +143,16 @@ export default {
     },
     handleClose() {
       this.$emit('update:dialogFormVisible', false)
+      this.$refs.addRoleForm.resetFields()
+      this.form = {
+        userName: '',
+        roleId: '',
+        regionId: '',
+        mobile: '',
+        regionName: '',
+        image: '',
+        status: true
+      }
     },
     regionChange() {
       this.areaList.forEach(item => {
@@ -150,11 +164,15 @@ export default {
     // 确认提交
     async confirm() {
       try {
-        await addRoleAPI(this.form)
-        this.$message.success('新增成功')
+        if (this.currentRole.id === '') {
+          await addRoleAPI(this.form)
+        } else {
+          await editRoleAPI(this.form, this.currentRole.id)
+        }
+        this.$message.success(`${this.currentRole.id === '' ? '新增' : '编辑'}成功`)
         this.$emit('addConfirm')
       } catch (error) {
-        this.$message.error('新增失败')
+        this.$message.error(`${this.currentRole.id === '' ? '新增' : '编辑'}成功`)
         throw Error
       } finally {
         this.$emit('update:dialogFormVisible', false)

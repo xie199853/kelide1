@@ -52,24 +52,35 @@ export default {
     }
   },
   methods: {
+    // 修改
     editClick(row) {
       this.$emit('showDialog', true)
       console.log(row)
+      this.$emit('editRole', row)
     },
+    // 新增
     addRole() {
       this.$emit('showDialog', true)
     },
     // 删除
     async delClick(id) {
-      // console.log(row)
-      try {
+      this.$confirm('此操作将永久删除该角色, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async() => {
         await delRoleAPI(id)
         this.$emit('delConfirm')
-        this.$message.success('删除成功')
-      } catch (error) {
-        this.$message.error('删除失败')
-        throw Error
-      }
+        this.$message({
+          type: 'success',
+          message: '删除成功!'
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
     }
   }
 }
