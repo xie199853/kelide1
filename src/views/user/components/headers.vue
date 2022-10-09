@@ -4,12 +4,16 @@
       <el-form-item label="人员搜索：">
         <el-input v-model.trim="form.name" placeholder="请输入" />
       </el-form-item>
-      <!-- <el-form-item label="角色：">
+      <el-form-item v-if="isWork" label="角色：">
         <el-select v-model.trim="form.region" placeholder="请选择">
-          <el-option label="区域一" value="shanghai" />
-          <el-option label="区域二" value="beijing" />
+          <el-option
+            v-for="item in roleList"
+            :key="item.roleId"
+            :label="item.roleName"
+            :value="item.roleName"
+          />
         </el-select>
-      </el-form-item> -->
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" @click="searchBtn">查询</el-button>
       </el-form-item>
@@ -19,11 +23,16 @@
 </template>
 
 <script>
+import { getRoleListAPI } from '@/api'
 export default {
   props: {
     tableData: {
       type: Array,
       required: true
+    },
+    isWork: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -31,15 +40,31 @@ export default {
       form: {
         name: '',
         region: ''
-      }
+      },
+      roleList: []
     }
+  },
+  created() {
+    this.getRoleList()
   },
   methods: {
     searchBtn() {
-      const arr = this.tableData.filter(item => {
-        return (item.userName.indexOf(this.form.name) !== -1)
-      })
-      this.$emit('searchRes', [arr, false])
+      if (this.isWork) {
+        const arr = this.tableData.filter(item => {
+          return (item.userName.indexOf(this.form.name) !== -1) && (item.roleName.indexOf(this.form.region) !== -1)
+        })
+        console.log(arr)
+        this.$emit('searchRes', [arr, false])
+      } else {
+        const arr = this.tableData.filter(item => {
+          return (item.userName.indexOf(this.form.name) !== -1)
+        })
+        this.$emit('searchRes', [arr, false])
+      }
+    },
+    async getRoleList() {
+      const { data } = await getRoleListAPI()
+      this.roleList = data
     }
   }
 }

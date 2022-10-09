@@ -1,6 +1,6 @@
 <template>
   <div class="result">
-    <el-button type="primary" icon="el-icon-circle-plus-outline" @click="addRole">新增</el-button>
+    <el-button v-if="idShowRole" type="primary" icon="el-icon-circle-plus-outline" @click="addRole">新增</el-button>
     <el-table
       :data="tableData"
       style="width: 100%"
@@ -16,12 +16,19 @@
         width="180"
       />
       <el-table-column
+        v-if="idShowRole"
         prop="regionName"
         label="归属区域"
         width="180"
       />
       <el-table-column
+        v-if="idShowRole"
         prop="role.roleName"
+        label="角色"
+      />
+      <el-table-column
+        v-else
+        prop="roleName"
         label="角色"
       />
       <el-table-column
@@ -29,13 +36,29 @@
         label="联系电话"
       />
       <el-table-column
+        v-if="isWork"
+        prop="workCount"
+        label="完成工单（本月）"
+      />
+      <el-table-column
+        v-if="isWork"
+        prop="progressTotal"
+        label="进行中工单"
+      />
+      <el-table-column
+        v-if="isWork"
+        prop="cancelCount"
+        label="拒绝工单（本月）"
+      />
+      <el-table-column
         fixed="right"
         label="操作"
         width="100"
       >
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="editClick(scope.row)">修改</el-button>
-          <el-button type="text" size="small" class="delBtn" @click="delClick(scope.row.id)">删除</el-button>
+          <el-button v-if="idShowRole" type="text" size="small" @click="editClick(scope.row)">修改</el-button>
+          <el-button v-if="idShowRole" type="text" size="small" class="delBtn" @click="delClick(scope.row.id)">删除</el-button>
+          <el-button v-if="isWork" type="text" size="small" @click="viewClick(scope.row)">查看详情</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -49,6 +72,14 @@ export default {
     tableData: {
       type: Array,
       required: true
+    },
+    idShowRole: {
+      type: Boolean,
+      default: true
+    },
+    isWork: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {
@@ -81,6 +112,10 @@ export default {
           message: '已取消删除'
         })
       })
+    },
+    // 查看详情
+    viewClick(row) {
+      this.$emit('viewRole', row)
     }
   }
 }
