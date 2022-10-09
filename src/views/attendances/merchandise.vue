@@ -110,7 +110,7 @@ export default {
 }
 </script>
 
-<style scoped lang="less">
+<style scoped lang="scss">
 .text {
   font-size: 14px;
   color: #606266;

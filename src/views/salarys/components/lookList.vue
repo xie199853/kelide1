@@ -45,7 +45,7 @@ export default {
 }
 </script>
 
-  <style scoped lang="less">
+  <style scoped lang="scss">
       .button {
           font-size: 12px;
       }
