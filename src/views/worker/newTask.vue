@@ -35,9 +35,9 @@
           <el-input v-model="taskData.desc" type="textarea" autocomplete="off" />
         </el-form-item>
 
-        <el-form-item>
-          <el-button type="primary" @click="submitForm">立即创建</el-button>
-          <el-button @click="resetForm">取消</el-button>
+        <el-form-item class="btn">
+          <el-button type="primary" class="newBtn" @click="submitForm">立即创建</el-button>
+          <el-button class="configurationBtn" @click="resetForm">取消</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -164,11 +164,11 @@ export default {
         item.skuImage = item.sku.skuImage
       })
       try {
-        console.log(this.taskData)
+        // console.log(this.taskData)
         await createTask(this.taskData)
         this.resetForm()
-      } catch (e) {
-        console.log(e)
+      } catch (error) {
+        throw Error
       }
     },
     submitForm() {
@@ -199,4 +199,30 @@ export default {
     font-size: 14px;
     word-break: break-all;
 }
+</style>
+<style lang="scss" scoped>
+.btn{
+    margin-bottom: 0px;
+    text-align: center;
+    width: 100%;
+    height: 36px;
+    .newBtn{
+      padding: 0;
+      height: 36px;
+      width: 80px;
+      font-size: 16px;
+      border: none;
+      color: #fff;
+      background-image: linear-gradient(to bottom right, #ff913f, #ff6021);;
+    }
+    .configurationBtn{
+      height: 36px;
+      width: 80px;
+      border: none;
+      padding: 10px 14px !important;
+      text-align: center;
+      font-size: 16px;
+      background-color: #fbf4f0;
+    }
+  }
 </style>

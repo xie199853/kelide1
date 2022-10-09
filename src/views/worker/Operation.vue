@@ -206,8 +206,8 @@ export default {
         // console.log(this.alertValue)
         await autoSupplyConfig(this.alertValue)
         this.supplyConfig = false
-      } catch (e) {
-        console.log(e)
+      } catch (error) {
+        throw Error
       }
       // console.log(this.alertValue)
     }

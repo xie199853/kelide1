@@ -21,7 +21,7 @@
         <el-descriptions-item label="备注">{{ taskDetDials.desc }}</el-descriptions-item>
       </el-descriptions>
       <el-button v-if="taskDetDials.taskStatusTypeEntity.statusName==='取消'" class="recreateBtn" @click="copeNewTask">重新创建</el-button>
-      <el-button v-else class="cancelBtn">取消工单</el-button>
+      <el-button v-else class="cancelBtn" @click="closeViewDetials">取消工单</el-button>
     </el-dialog>
     <viewTaskDetDialsReplenishment :task-id="taskId" :show-view-task-det-dials-replenishment="showViewTaskDetDialsReplenishment" @closeViewTaskDetDialsReplenishment="showViewTaskDetDialsReplenishment=false" />
     <!-- <newTask :new-task="showNewTask" :copy-task="taskDetDials" :from-detail="true" @closeNewTask="closeNewTask" /> -->

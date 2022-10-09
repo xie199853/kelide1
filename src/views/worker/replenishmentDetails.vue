@@ -23,10 +23,15 @@
         </el-table-column>
         <el-table-column property="expectCapacity" label="补满数量" width="200">
           <template slot-scope="scope">
-            {{ scope.row.need? scope.row.expectCapacity :'货道暂无商品' }}
+            <el-input-number v-if="scope.row.need" v-model="scope.row.index" controls-position="right" :min="1" :max="scope.row.maxCapacity" />
+            <span v-else>货道暂无商品</span>
           </template>
         </el-table-column>
       </el-table>
+      <div slot="footer" class="dialog-footer btn">
+        <el-button class="configurationBtn" @click="closeReplenishmentDetails">取 消</el-button>
+        <el-button type="primary" class="newBtn" @click="closeReplenishmentDetails">确 定</el-button>
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -57,6 +62,27 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+.btn{
+    margin-bottom: 20px;
+    width: 100%;
+    height: 36px;
+    .newBtn{
+      height: 36px;
+      width: 80px;
+      font-size: 16px;
+      border: none;
+      color: #fff;
+      background-image: linear-gradient(to bottom right, #ff913f, #ff6021);;
+    }
+    .configurationBtn{
+      height: 36px;
+      width: 80px;
+      border: none;
+      padding: 10px 14px !important;
+      text-align: center;
+      font-size: 16px;
+      background-color: #fbf4f0;
+    }
+  }
 </style>
