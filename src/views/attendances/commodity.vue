@@ -17,12 +17,7 @@
     </div>
 
     <template>
-      <el-button
-        type="text"
-        icon="el-icon-circle-plus-outline"
-        class="newBtn"
-      >新建
-      </el-button>
+      <addShopManage />
     </template>
 
     <div>
@@ -78,13 +73,6 @@
           label="操作"
           width="120"
         >
-          <!-- <template slot-scope="scope">
-            <el-button
-              type="text"
-              size="small"
-              @click="handleClick(scope.row)"
-            >修改</el-button>
-          </template> -->
           <template slot-scope="scope">
             <reviseShopManage
               :current-row="scope.row"
@@ -105,10 +93,12 @@
 import { getSku, searchSku } from '@/api/shop'
 import fenye from '@/components/fenye.vue'
 import reviseShopManage from './components/reviseShopManage.vue'
+import addShopManage from './components/addShopManage.vue'
 export default {
   components: {
     fenye,
-    reviseShopManage
+    reviseShopManage,
+    addShopManage
   },
   data() {
     return {
@@ -134,9 +124,16 @@ export default {
     this.qqsj()
   },
   methods: {
+    prices(row) {
+      console.log(row)
+    },
     async qqsj() {
       const { data } = await getSku(this.Objs)
+
       this.tableData = data.currentPageRecords
+      this.tableData.map((item, index) => {
+        item.price = item.price / 100
+      })
       this.totalPage = data.totalPage
       this.totalCount = data.totalCount
     },

@@ -6,18 +6,18 @@
       @click="xg"
     >修改</el-button>
 
-    <el-dialog title="收货地址" :modal-append-to-body="false" :visible.sync="dialogFormVisible">
-      <el-form :model="form">
+    <el-dialog title="修改商品" :modal-append-to-body="false" :visible.sync="dialogFormVisible">
+      <el-form :model="form" :rules="rules">
 
-        <el-form-item label="商品名称" :label-width="formLabelWidth">
+        <el-form-item label="商品名称" :label-width="formLabelWidth" prop="skuName">
           <el-input v-model="form.skuName" autocomplete="off" show-word-limit maxlength="15" />
         </el-form-item>
 
-        <el-form-item label="品牌" :label-width="formLabelWidth">
+        <el-form-item label="品牌" :label-width="formLabelWidth" prop="brandName">
           <el-input v-model="form.brandName" autocomplete="off" show-word-limit maxlength="15" />
         </el-form-item>
 
-        <el-form-item label="商品价格" :label-width="formLabelWidth">
+        <el-form-item label="商品价格" :label-width="formLabelWidth" prop="price">
           <el-input-number
             v-model="form.price"
             controls-position="right"
@@ -28,7 +28,7 @@
           />
         </el-form-item>
 
-        <el-form-item label="商品类型" :label-width="formLabelWidth">
+        <el-form-item label="商品类型" :label-width="formLabelWidth" prop="classId">
 
           <el-select v-model="form.classId" class="num" placeholder="请选择商品类型">
             <el-option label="饮料" :value="value[0]" />
@@ -41,22 +41,22 @@
 
         </el-form-item>
 
-        <el-form-item label="规格" :label-width="formLabelWidth">
+        <el-form-item label="规格" :label-width="formLabelWidth" prop="unit">
           <el-input v-model="form.unit" autocomplete="off" show-word-limit maxlength="10" />
         </el-form-item>
 
-        <el-form-item label="商品图片" style="margin-left:50px">
-          <img style="height:100px;border:1px solid #ccc" :src="form.skuImage" alt="">
-          <!-- <el-upload
+        <el-form-item label="商品图片" style="margin-left:50px" prop="skuImage">
+          <!-- <img style="height:100px;border:1px solid #ccc" :src="form.skuImage" alt=""> -->
+          <el-upload
             class="avatar-uploader"
             action="https://jsonplaceholder.typicode.com/posts/"
             :show-file-list="false"
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload"
           >
-            <img v-if="imageUrl" :src="imageUrl" class="avatar">
+            <img v-if="form.skuImage" :src="form.skuImage" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon" />
-          </el-upload> -->
+          </el-upload>
         </el-form-item>
 
       </el-form>
@@ -91,21 +91,42 @@ export default {
       },
       formLabelWidth: '120px',
       dialogVisible: false,
-      value: [1, 2, 3, 4, 5, 6]
+      value: [1, 2, 3, 4, 5, 6],
+      rules: {
+        skuName: [{ required: true }],
+        brandName: [{ required: true }],
+        price: [{ required: true }],
+        classId: [{ required: true }],
+        unit: [{ required: true }],
+        skuImage: [{ required: true }]
+      }
     }
   },
   methods: {
+    handleAvatarSuccess(res, file) {
+      this.imageUrl = URL.createObjectURL(file.raw)
+    },
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === 'image/jpeg'
+      const isLt2M = file.size / 1024 / 1024 < 2
+
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG 格式!')
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!')
+      }
+      return isJPG && isLt2M
+    },
     handleChange(value) {
       console.log(value)
     },
     xg() {
       this.form = this.currentRow
-      console.log(this.currentRow)
       this.dialogFormVisible = true
     },
     async qr() {
       await reviseSku(this.currentRow)
-      console.log(this.currentRow)
       if (this.form.classId === this.value) {
         this.value = '["饮料","零食","食品","玩具","电子产品","首饰"]'
       }

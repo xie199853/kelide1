@@ -73,3 +73,12 @@ export function reviseSku(data) {
     data
   })
 }
+
+// 新增商品类型
+export function addSku(data) {
+  return request({
+    url: '/vm-service/skuClass',
+    method: 'POST',
+    data
+  })
+}
