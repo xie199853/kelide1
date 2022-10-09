@@ -8,6 +8,7 @@
       :table-data="tableData"
       @delConfirm="getUserSearch"
       @showDialog="dialogFormVisible = $event"
+      @editRole="editRole"
     />
     <MyPagination
       v-if="isShow"
@@ -18,8 +19,10 @@
       @nextPage="getUserSearch($event)"
     />
     <addRole
+      ref="addRole"
       :table-data="tableData"
       :dialog-form-visible.sync="dialogFormVisible"
+      :current-role="currentRole"
       @addConfirm="getUserSearch"
     />
   </div>
@@ -41,7 +44,8 @@ export default {
       pageSize: 10,
       totalPage: '',
       totalCount: '',
-      dialogFormVisible: false
+      dialogFormVisible: false,
+      currentRole: {}
     }
   },
   created() {
@@ -54,6 +58,10 @@ export default {
       this.totalCount = data.totalCount
       this.totalPage = data.totalPage
       this.pageIndex = data.pageIndex
+    },
+    editRole(row) {
+      this.currentRole = row
+      this.$refs.addRole.form = row
     }
   }
 }

@@ -73,3 +73,13 @@ export const delRoleAPI = (id) => {
     method: 'DELETE'
   })
 }
+/**
+ * 编辑人员
+ */
+export const editRoleAPI = (data, id) => {
+  return request({
+    url: `/user-service/user/${id}`,
+    method: 'PUT',
+    data
+  })
+}
