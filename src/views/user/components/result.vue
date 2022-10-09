@@ -35,7 +35,7 @@
       >
         <template slot-scope="scope">
           <el-button type="text" size="small" @click="editClick(scope.row)">修改</el-button>
-          <el-button type="text" size="small" class="delBtn">删除</el-button>
+          <el-button type="text" size="small" class="delBtn" @click="delClick(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -43,6 +43,7 @@
 </template>
 
 <script>
+import { delRoleAPI } from '@/api'
 export default {
   props: {
     tableData: {
@@ -57,6 +58,18 @@ export default {
     },
     addRole() {
       this.$emit('showDialog', true)
+    },
+    // 删除
+    async delClick(id) {
+      // console.log(row)
+      try {
+        await delRoleAPI(id)
+        this.$emit('delConfirm')
+        this.$message.success('删除成功')
+      } catch (error) {
+        this.$message.error('删除失败')
+        throw Error
+      }
     }
   }
 }
