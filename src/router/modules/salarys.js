@@ -6,6 +6,7 @@ export default {
   children: [{
     name: 'salarys',
     path: '',
+    name: 'salarys',
     component: () => import('@/views/salarys'),
 
     meta: {
