@@ -1,5 +1,5 @@
 <template>
-  <div class="user-task-stats">
+  <div v-loading="loading" class="user-task-stats">
     <headers
       :is-work="true"
       :table-data="tableData"
@@ -48,7 +48,8 @@ export default {
       tableData: [],
       currentRole: {},
       dialogTableVisible: false,
-      userInfo: {}
+      userInfo: {},
+      loading: false
     }
   },
   created() {
@@ -56,11 +57,18 @@ export default {
   },
   methods: {
     async getStaffList(pageIndex, pageSize) {
-      const { data } = await getStaffListAPI(pageIndex, pageSize)
-      this.tableData = data.currentPageRecords
-      this.totalCount = data.totalCount
-      this.totalPage = data.totalPage
-      this.pageIndex = data.pageIndex
+      try {
+        this.loading = true
+        const { data } = await getStaffListAPI(pageIndex, pageSize)
+        this.tableData = data.currentPageRecords
+        this.totalCount = data.totalCount
+        this.totalPage = data.totalPage
+        this.pageIndex = data.pageIndex
+      } catch (error) {
+        console.log(error)
+      } finally {
+        this.loading = false
+      }
     },
     async viewRole(row) {
       const { data } = await getUserInfoAPI(row.userId)

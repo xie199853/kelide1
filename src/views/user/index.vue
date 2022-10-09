@@ -1,5 +1,5 @@
 <template>
-  <div class="user-work">
+  <div v-loading="loading" class="user-work">
     <headers
       :table-data="tableData"
       @searchRes="[tableData=$event[0],isShow=$event[1]]"
@@ -45,7 +45,8 @@ export default {
       totalPage: '',
       totalCount: '',
       dialogFormVisible: false,
-      currentRole: {}
+      currentRole: {},
+      loading: false
     }
   },
   created() {
@@ -53,11 +54,18 @@ export default {
   },
   methods: {
     async getUserSearch(pageIndex, pageSize) {
-      const { data } = await userSearch(pageIndex, pageSize)
-      this.tableData = data.currentPageRecords
-      this.totalCount = data.totalCount
-      this.totalPage = data.totalPage
-      this.pageIndex = data.pageIndex
+      try {
+        this.loading = true
+        const { data } = await userSearch(pageIndex, pageSize)
+        this.tableData = data.currentPageRecords
+        this.totalCount = data.totalCount
+        this.totalPage = data.totalPage
+        this.pageIndex = data.pageIndex
+      } catch (error) {
+        console.log(error)
+      } finally {
+        this.loading = false
+      }
     },
     editRole(row) {
       this.currentRole = row
