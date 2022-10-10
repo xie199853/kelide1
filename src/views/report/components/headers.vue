@@ -1,7 +1,7 @@
 <template>
   <div class="search">
     <div class="title">合作商：</div>
-    <el-select v-model="value" placeholder="请选择">
+    <el-select v-model="form.partner" placeholder="请选择">
       <el-option
         v-for="item in Partners"
         :key="item.value"
@@ -11,9 +11,10 @@
     </el-select>
     <div class="title">日期：</div>
     <el-date-picker
-      v-model="value1"
+      v-model="form.value1"
       size="small"
       format="yyyy-MM-dd"
+      value-format="yyyy-MM-dd"
       type="daterange"
       range-separator="~"
       start-placeholder="开始日期"
@@ -31,16 +32,22 @@
 
 <script>
 import { getPartnersAPI } from '@/api'
+// import moment from 'moment'
 export default {
+  props: {
+    form: {
+      type: Object,
+      required: true
+    }
+  },
   data() {
     return {
-      form: {
-        partner: '',
-        region: ''
-      },
+      // form: {
+      //   partner: '',
+      //   value1: [moment(moment().add('month', 0).format('YYYY-MM') + '-01').format('YYYY-MM-DD'), moment().format('YYYY-MM-DD')]
+      // },
       roleList: [],
-      value1: [new Date(2000, 10, 10, 10, 10), new Date(2000, 10, 11, 10, 10)],
-      pageIndex: 1,
+      pageIndex: '1',
       pageSize: 10,
       Partners: []
     }
@@ -50,6 +57,7 @@ export default {
   },
   methods: {
     searchBtn() {
+      this.$emit('selectData', this.form)
     },
     async getPartners(pageIndex, pageSize) {
       const { data } = await getPartnersAPI(pageIndex, pageSize)

@@ -49,7 +49,7 @@ export default {
       this.endTime = dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss')
       // 获取当前时间为本周
       // 本周的开始时间  计算今天是这周第几天 周日为一周中的第一天
-      this.weekStartTime = (moment().subtract(this.endTime).format('YYYY-MM-DD 00:00:00'))
+      this.weekStartTime = moment().weekday(0).format('YYYY-MM-DD HH:mm:ss')
       // 获取本月开始时间
       const start = moment().add('month', 0).format('YYYY-MM') + '-01'
       this.monthStartTime = moment(start).format('YYYY-MM-DD HH:mm:ss')

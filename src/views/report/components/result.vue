@@ -2,18 +2,18 @@
   <div class="result">
     <div class="stats">
       <span class="label">笔数统计：</span>&nbsp;&nbsp;
-      <span class="value">1</span>&nbsp;&nbsp;
+      <span class="value">{{ strokeCount }}</span>&nbsp;&nbsp;
       <span class="unit">个</span>
       <span class="label">收入统计：</span>&nbsp;&nbsp;
-      <span class="value">1</span>&nbsp;&nbsp;
-      <span class="unit">个</span>
+      <span class="value">{{ incomeCount }}</span>&nbsp;&nbsp;
+      <span class="unit">元</span>
       <span class="label">分成统计：</span>&nbsp;&nbsp;
-      <span class="value">1</span>&nbsp;&nbsp;
-      <span class="unit">个</span>
+      <span class="value">{{ totalBillCount }}</span>&nbsp;&nbsp;
+      <span class="unit">元</span>
     </div>
     <div class="table">
       <el-table
-        :data="tableData"
+        :data="tablePartners"
         style="width: 100%"
       >
         <el-table-column
@@ -22,27 +22,27 @@
           width="275"
         />
         <el-table-column
-          prop="name"
+          prop="ownerName"
           label="合作商"
           width="275"
         />
         <el-table-column
-          prop="name"
+          prop="ratio"
           label="分成比例"
           width="275"
         />
         <el-table-column
-          prop="name"
+          prop="orderTotalMoney"
           label="收入（元）"
           width="275"
         />
         <el-table-column
-          prop="name"
+          prop="orderCount"
           label="笔数"
           width="275"
         />
         <el-table-column
-          prop="name"
+          prop="totalBill"
           label="分成金额（元）"
         />
       </el-table>
@@ -53,26 +53,48 @@
 <script>
 
 export default {
+  props: {
+    partners: {
+      type: Array,
+      required: true
+    }
+  },
   data() {
     return {
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄'
-      }]
     }
+  },
+  computed: {
+    tablePartners() {
+      this.partners.forEach(item => {
+        item.ratio = `${item.ratio}%`
+        item.orderTotalMoney = +`+${(item.orderTotalMoney / 100).toFixed(2)}`
+        item.totalBill = +`+${(item.totalBill / 100).toFixed(2)}`
+      })
+      return this.partners
+    },
+    strokeCount() {
+      const a = this.partners.reduce((sum, item) => {
+        sum += item.orderCount
+        return sum
+      }, 0)
+      return a
+    },
+    incomeCount() {
+      const a = this.partners.reduce((sum, item) => {
+        sum += item.orderTotalMoney
+        return sum
+      }, 0)
+      return a.toFixed(2)
+    },
+    totalBillCount() {
+      const b = this.partners.reduce((sum, item) => {
+        sum += item.totalBill
+        return sum
+      }, 0)
+      return b.toFixed(2)
+    }
+  },
+  methods: {
   }
 }
 </script>

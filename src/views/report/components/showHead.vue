@@ -1,5 +1,5 @@
 <template>
-  <div v-loading="loading" class="day">
+  <div class="day">
     <el-row :gutter="20">
       <el-col :span="12">
         <div class="grid-content bg-purple">
@@ -48,6 +48,12 @@ import { getOrderCountAPI, getOrderAmountAPI, getTotalBillAPI } from '@/api'
 import moment from 'moment'
 import dayjs from 'dayjs'
 export default {
+  props: {
+    loading: {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
     return {
       monthStartTime: '',
@@ -60,8 +66,7 @@ export default {
       dayOrderAmount: '',
       monthOrderAmount: '',
       dayTotalBill: '',
-      monthTotalBill: '',
-      loading: false
+      monthTotalBill: ''
     }
   },
   created() {
@@ -71,7 +76,7 @@ export default {
   methods: {
     async getOrderCount() {
       try {
-        this.loading = true
+        this.$emit('update:loading', true)
         // 获取订单总数
         const res1 = await getOrderCountAPI(this.dayStartTime, this.endTime)
         this.dayOrderCount = res1.data
@@ -88,7 +93,7 @@ export default {
         const res6 = await getTotalBillAPI(this.monthStartTime, this.endTime)
         this.monthTotalBill = res6.data
       } finally {
-        this.loading = false
+        this.$emit('update:loading', false)
       }
     },
     getTime() {
