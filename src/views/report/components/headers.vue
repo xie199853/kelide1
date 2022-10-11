@@ -42,10 +42,6 @@ export default {
   },
   data() {
     return {
-      // form: {
-      //   partner: '',
-      //   value1: [moment(moment().add('month', 0).format('YYYY-MM') + '-01').format('YYYY-MM-DD'), moment().format('YYYY-MM-DD')]
-      // },
       roleList: [],
       pageIndex: '1',
       pageSize: 10,
