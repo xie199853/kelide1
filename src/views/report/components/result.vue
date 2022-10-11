@@ -57,6 +57,18 @@ export default {
     partners: {
       type: Array,
       required: true
+    },
+    strokeCount: {
+      type: String,
+      required: true
+    },
+    incomeCount: {
+      type: String,
+      required: true
+    },
+    totalBillCount: {
+      type: String,
+      required: true
     }
   },
   data() {
@@ -67,32 +79,32 @@ export default {
     tablePartners() {
       this.partners.forEach(item => {
         item.ratio = `${item.ratio}%`
-        item.orderTotalMoney = +`+${(item.orderTotalMoney / 100).toFixed(2)}`
-        item.totalBill = +`+${(item.totalBill / 100).toFixed(2)}`
+        item.orderTotalMoney = `+${(item.orderTotalMoney / 100).toFixed(2)}`
+        item.totalBill = `+${(item.totalBill / 100).toFixed(2)}`
       })
       return this.partners
-    },
-    strokeCount() {
-      const a = this.partners.reduce((sum, item) => {
-        sum += item.orderCount
-        return sum
-      }, 0)
-      return a
-    },
-    incomeCount() {
-      const a = this.partners.reduce((sum, item) => {
-        sum += item.orderTotalMoney
-        return sum
-      }, 0)
-      return a.toFixed(2)
-    },
-    totalBillCount() {
-      const b = this.partners.reduce((sum, item) => {
-        sum += item.totalBill
-        return sum
-      }, 0)
-      return b.toFixed(2)
     }
+    // strokeCount() {
+    //   const a = this.partners.reduce((sum, item) => {
+    //     sum += item.orderCount
+    //     return sum
+    //   }, 0)
+    //   return a
+    // },
+    // incomeCount() {
+    //   const a = this.partners.reduce((sum, item) => {
+    //     sum += item.orderTotalMoney
+    //     return sum
+    //   }, 0)
+    //   return a.toFixed(2)
+    // },
+    // totalBillCount() {
+    //   const b = this.partners.reduce((sum, item) => {
+    //     sum += item.totalBill
+    //     return sum
+    //   }, 0)
+    //   return b.toFixed(2)
+    // }
   },
   methods: {
   }
